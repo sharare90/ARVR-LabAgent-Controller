@@ -20,12 +20,22 @@ def wait_until_file_is_free():
                 break
 
 @try_function
-def wave():
+def wave(name):
     wait_until_file_is_free()
     print('wave')
+    print(name)
 
     with open(path, 'w') as unity_file:
         unity_file.write('Wave')
+        unity_file.write(name)
+
+@try_function
+def greeting():
+    wait_until_file_is_free()
+    print('Greeting')
+
+    with open(path, 'w') as unity_file:
+        unity_file.write('Greeting')
 
 @try_function
 def show_image(image):

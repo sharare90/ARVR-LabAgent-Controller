@@ -13,8 +13,6 @@ class Controller(object):
         self.queue = Queue()
         self.known_faces, self.ids = self.load_known_faces()
 
-        # say_text_by_id(0)
-
     def load_known_faces(self):
         return [], []
 
@@ -40,7 +38,8 @@ class Controller(object):
         else:
             # we have seen a new face. Store it!
             unity_controller.show_image(notification['face_image'])
-            say_text_by_id(1)
+            # say_text_by_id(1)
+            unity_controller.greeting()
 
             with self.microphone as source:
                 audio = self.recognizer.listen(source, phrase_time_limit=5)
@@ -51,10 +50,10 @@ class Controller(object):
                 name = values[-1]
 
                 # just pick a name
-                # name = ''
+                # name = 'Sherry'
 
-                unity_controller.wave()
-                say_text(f'Nice to meet you {name}')
+                unity_controller.wave(name)
+                # say_text(f'Nice to meet you {name}')
                 self.known_faces.append(notification['face_encoding'])
                 self.ids.append(name)
 
@@ -71,7 +70,7 @@ class Controller(object):
 
     def run(self):
         self.recognizer = sr.Recognizer()
-        self.microphone = sr.Microphone()
+        self.microphone = sr.Microphone(device_index=3)
         print("A moment of silence, please...")
         with self.microphone as source:
             self.recognizer.adjust_for_ambient_noise(source)
